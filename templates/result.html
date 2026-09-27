@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}FitBuddy – Your Plan{% endblock %}
+{% block content %}
+<div class="alert success">{{ message }}</div>
+
+<section class="card">
+  <p class="eyebrow">PROFILE</p>
+  <h1>{{ user.username }}'s FitBuddy plan</h1>
+  <div class="profile">
+    <span><b>ID</b> {{ user.user_id }}</span>
+    <span><b>Age</b> {{ user.age }}</span>
+    <span><b>Weight</b> {{ user.weight }} kg</span>
+    <span><b>Goal</b> {{ user.goal.replace('_', ' ') }}</span>
+    <span><b>Intensity</b> {{ user.intensity }}</span>
+  </div>
+</section>
+
+{% if plan %}
+<section class="card">
+  <h2>7-day workout plan</h2>
+  <p>{{ plan.summary }}</p>
+  <div class="notice">{{ plan.safety_note }}</div>
+  {% for day in plan.days %}
+  <article class="day">
+    <h3>{{ day.day }} · {{ day.focus }}</h3>
+    <p><b>Warm-up:</b> {{ day.warmup }}</p>
+    <ul>
+      {% for ex in day.exercises %}
+      <li><b>{{ ex.name }}</b> — {{ ex.sets_reps_or_duration }} · Rest: {{ ex.rest }}</li>
+      {% endfor %}
+    </ul>
+    <p><b>Cooldown:</b> {{ day.cooldown }}</p>
+  </article>
+  {% endfor %}
+</section>
+
+<section class="card tip">
+  <h2>Nutrition & recovery tip</h2>
+  <p>{{ tip.tip }}</p>
+  <p>{{ tip.recovery_note }}</p>
+</section>
+{% endif %}
+
+{% if updated_plan %}
+<section class="card">
+  <h2>Updated 7-day plan</h2>
+  <p>{{ updated_plan.summary }}</p>
+  <div class="notice">{{ updated_plan.safety_note }}</div>
+  {% for day in updated_plan.days %}
+  <article class="day">
+    <h3>{{ day.day }} · {{ day.focus }}</h3>
+    <p><b>Warm-up:</b> {{ day.warmup }}</p>
+    <ul>
+      {% for ex in day.exercises %}
+      <li><b>{{ ex.name }}</b> — {{ ex.sets_reps_or_duration }} · Rest: {{ ex.rest }}</li>
+      {% endfor %}
+    </ul>
+    <p><b>Cooldown:</b> {{ day.cooldown }}</p>
+  </article>
+  {% endfor %}
+</section>
+{% endif %}
+
+<section class="card">
+  <h2>Refine this plan</h2>
+  <form method="post" action="/submit-feedback">
+    <input type="hidden" name="user_id" value="{{ user.user_id }}">
+    <div class="field">
+      <label>Feedback</label>
+      <textarea name="feedback" maxlength="1500" required placeholder="Example: make the sessions easier and add another recovery day"></textarea>
+    </div>
+    <button type="submit">Update with AI</button>
+  </form>
+</section>
+{% endblock %}

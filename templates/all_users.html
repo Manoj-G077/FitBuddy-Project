@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}FitBuddy – Admin{% endblock %}
+{% block content %}
+<section class="card">
+  <p class="eyebrow">ADMIN</p>
+  <h1>All users</h1>
+  <p class="muted">Keep this page private. It contains personal fitness information.</p>
+</section>
+{% for user in users %}
+<section class="card">
+  <h2>{{ user.username }} <small>({{ user.user_id }})</small></h2>
+  <div class="profile">
+    <span><b>Age</b> {{ user.age }}</span>
+    <span><b>Weight</b> {{ user.weight }} kg</span>
+    <span><b>Goal</b> {{ user.goal }}</span>
+    <span><b>Intensity</b> {{ user.intensity }}</span>
+  </div>
+  {% for plan in user.plans %}
+    <details>
+      <summary>Plan #{{ plan.id }} — created {{ plan.created_at }}</summary>
+      <h3>Original plan</h3>
+      <pre>{{ plan.original_plan }}</pre>
+      {% if plan.updated_plan %}
+      <h3>Updated plan</h3>
+      <pre>{{ plan.updated_plan }}</pre>
+      <h3>Latest feedback</h3>
+      <pre>{{ plan.latest_feedback }}</pre>
+      {% endif %}
+    </details>
+  {% endfor %}
+</section>
+{% else %}
+<div class="card">No users yet.</div>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}FitBuddy – Generate Plan{% endblock %}
+{% block content %}
+<section class="hero">
+  <div>
+    <p class="eyebrow">AI FITNESS PLANNER</p>
+    <h1>Your 7-day wellness plan, built with Gemini.</h1>
+    <p class="muted">Enter basic information and FitBuddy will create a structured adult wellness workout plan plus a practical nutrition/recovery tip.</p>
+  </div>
+</section>
+
+{% if error %}
+<div class="alert error">{{ error }}</div>
+{% endif %}
+
+<form class="card form-grid" method="post" action="/generate-workout">
+  <div class="field">
+    <label>Name</label>
+    <input name="username" required maxlength="100" placeholder="Your name">
+  </div>
+  <div class="field">
+    <label>User ID</label>
+    <input name="user_id" required maxlength="80" pattern="[A-Za-z0-9_-]+" placeholder="e.g. Manoj07">
+  </div>
+  <div class="field">
+    <label>Age</label>
+    <input type="number" name="age" min="18" max="100" required placeholder="e.g.27">
+  </div>
+  <div class="field">
+    <label>Weight (kg)</label>
+    <input type="number" name="weight" min="20" max="399" step="0.1" required placeholder="e.g. 67">
+  </div>
+  <div class="field">
+    <label>Fitness goal</label>
+    <select name="goal" required>
+      <option value="weight_loss">Weight loss</option>
+      <option value="muscle_gain">Muscle gain</option>
+      <option value="general_wellness">General wellness</option>
+    </select>
+  </div>
+  <div class="field">
+    <label>Workout intensity</label>
+    <select name="intensity" required>
+      <option value="low">Low</option>
+      <option value="medium" selected>Medium</option>
+      <option value="high">High</option>
+    </select>
+  </div>
+  <div class="full">
+    <button type="submit">Generate 7-day plan</button>
+  </div>
+</form>
+
+<div class="notice">
+  <strong>Safety:</strong> FitBuddy provides general wellness information for adults. It is not a medical service. Stop if exercise causes pain or unusual symptoms and consult a qualified professional when appropriate.
+</div>
+{% endblock %}

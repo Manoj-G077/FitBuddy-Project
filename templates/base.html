@@ -1,0 +1,70 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{% block title %}FitBuddy{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
+</head>
+
+<body>
+
+<header class="nav">
+  <a class="brand" href="/">FitBuddy</a>
+
+  <nav>
+    <a href="/">Generator</a>
+    <a href="/feedback">Update Plan</a>
+
+    <!-- Theme Toggle -->
+    <label class="theme-toggle" aria-label="Toggle theme">
+      <input type="checkbox" id="theme-toggle" checked>
+      <span class="toggle-slider">
+        <span class="toggle-icon sun">☀</span>
+        <span class="toggle-icon moon">☾</span>
+      </span>
+    </label>
+
+  </nav>
+</header>
+
+<main class="container">
+  {% block content %}{% endblock %}
+</main>
+
+<footer>
+  FitBuddy • AI-assisted wellness planning • Not medical advice
+</footer>
+
+<script>
+  const toggle = document.getElementById("theme-toggle");
+
+  // Check saved theme
+  const savedTheme = localStorage.getItem("theme");
+
+  if (savedTheme === "light") {
+    document.documentElement.classList.add("light");
+    toggle.checked = false;
+  } else {
+    // Dark is the default
+    document.documentElement.classList.remove("light");
+    toggle.checked = true;
+  }
+
+  // Change theme
+  toggle.addEventListener("change", () => {
+    if (toggle.checked) {
+      // ON = Dark
+      document.documentElement.classList.remove("light");
+      localStorage.setItem("theme", "dark");
+    } else {
+      // OFF = Light
+      document.documentElement.classList.add("light");
+      localStorage.setItem("theme", "light");
+    }
+  });
+</script>
+
+</body>
+</html>
